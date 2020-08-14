@@ -96,6 +96,8 @@ func newTiKVTxn(store *tikvStore) (*tikvTxn, error) {
 func newTikvTxnWithStartTS(store *tikvStore, startTS uint64, replicaReadSeed uint32) (*tikvTxn, error) {
 	ver := kv.NewVersion(startTS)
 	snapshot := newTiKVSnapshot(store, ver, replicaReadSeed)
+	//启动2阶段提交事务
+	logutil.BgLogger().Info("hello transaction")
 	return &tikvTxn{
 		snapshot:  snapshot,
 		us:        kv.NewUnionStore(snapshot),
